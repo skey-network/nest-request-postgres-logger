@@ -10,6 +10,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.15.1'
+          registry-url: 'https://registry.npmjs.org'
+      - run: yarn
       - name: Publish if version has been updated
         uses: pascalgn/npm-publish-action@1.3.9
         env:
