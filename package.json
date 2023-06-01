@@ -1,6 +1,6 @@
 {
   "name": "nest-request-postgres-logger",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "nest-request-postgres-logger",
   "license": "MIT",
   "main": "dist/index.js",
@@ -43,6 +43,9 @@
     "rxjs": "^7.x"
   },
   "devDependencies": {
+    "@mikro-orm/core": "^5.6.15",
+    "@mikro-orm/postgresql": "^5.6.15",
+    "@mikro-orm/migrations": "^5.6.15",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
