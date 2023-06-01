@@ -21,6 +21,7 @@ Requirements:
 
 - `nestjs-cls`
 - `@nestjs/schedule`
+- `@mikro-orm`
 - postgres database
 
 <br>
@@ -30,7 +31,7 @@ Requirements:
 Install the library with peer dependencies
 
 ```bash
-npm install @nestjs/schedule nestjs-cls nest-request-postgres-logger
+npm install @nestjs/schedule nestjs-cls @mikro-orm/core @mikro-orm/postgresql @mikro-orm/migrations nest-request-postgres-logger
 ```
 
 Add nest logger module
