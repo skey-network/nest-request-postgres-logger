@@ -1,6 +1,6 @@
 {
   "name": "nest-request-postgres-logger",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "nest-request-postgres-logger",
   "license": "MIT",
   "main": "dist/index.js",
@@ -13,7 +13,8 @@
     "build": "rm -rf dist && tsc && npm pack",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,test,__tests__}/**/*.ts\" --fix",
-    "lint:ci": "eslint \"{src,apps,libs,test,__tests__}/**/*.ts\""
+    "lint:ci": "eslint \"{src,apps,libs,test,__tests__}/**/*.ts\"",
+    "prepublish": "npm run build"
   },
   "keywords": [
     "nestjs",

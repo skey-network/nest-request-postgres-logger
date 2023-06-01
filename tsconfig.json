@@ -2,11 +2,12 @@
   "compilerOptions": {
     "module": "commonjs",
     "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
     "removeComments": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es6",
-    "sourceMap": false,
     "outDir": "./dist",
     "rootDir": "./src",
     "baseUrl": "./",
