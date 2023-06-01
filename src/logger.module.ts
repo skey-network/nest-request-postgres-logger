@@ -25,7 +25,12 @@ export class NLoggerModule extends ConfigurableModuleClass implements NestModule
   }
 
   static forRootAsync(options: typeof ASYNC_OPTIONS_TYPE): DynamicModule {
-    return super.forRootAsync(options)
+    const base = super.forRootAsync(options)
+
+    return {
+      ...base,
+      providers: [...(base.providers ?? []), NLoggerService, NLoggerMiddleware, NLogger],
+    }
   }
 
   configure(consumer: MiddlewareConsumer) {
