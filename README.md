@@ -148,3 +148,17 @@ export interface NLoggerOptions {
   dbUpdateInterval?: number
 }
 ```
+
+## Using with mikro-orm
+
+When generating migrations with mikro-orm it will probably try to remove nlogger schema. To prevent this use this option in mikro-orm configuration
+
+```typescript
+export const options: MikroOrmModuleOptions = {
+  // ...
+  schemaGenerator: {
+    // ...
+    ignoreSchema: ['nlogger'],
+  },
+}
+```
