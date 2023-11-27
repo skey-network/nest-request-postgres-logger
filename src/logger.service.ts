@@ -1,6 +1,6 @@
 import { MikroORM } from '@mikro-orm/core'
 import { PostgreSqlDriver, defineConfig } from '@mikro-orm/postgresql'
-import { Inject, Injectable, OnApplicationBootstrap } from '@nestjs/common'
+import { Inject, Injectable, OnApplicationBootstrap, OnApplicationShutdown } from '@nestjs/common'
 import { SchedulerRegistry } from '@nestjs/schedule'
 import { ClsService } from 'nestjs-cls'
 import { LogEntity } from './entities/log.entity'
@@ -11,7 +11,7 @@ import { DatabaseItem, NLoggerOptions } from './logger.interfaces'
 import { migrations } from './migrations'
 
 @Injectable()
-export class NLoggerService implements OnApplicationBootstrap {
+export class NLoggerService implements OnApplicationBootstrap, OnApplicationShutdown {
   private orm: MikroORM<PostgreSqlDriver>
   private queue: DatabaseItem[] = []
 
@@ -35,9 +35,15 @@ export class NLoggerService implements OnApplicationBootstrap {
 
     const interval = setInterval(() => {
       this.insertDatabaseItems()
-    }, this.options.dbUpdateInterval ?? 3000)
+    }, this.options.dbUpdateInterval ?? 1000)
 
     this.schedulerRegistry.addInterval(INTERVAL_KEY, interval)
+  }
+
+  async onApplicationShutdown() {
+    clearInterval(this.schedulerRegistry.getInterval(INTERVAL_KEY))
+
+    await this.orm.close(true)
   }
 
   pushDatabaseItem(item: DatabaseItem) {
