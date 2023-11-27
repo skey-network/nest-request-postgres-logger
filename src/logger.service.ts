@@ -5,7 +5,7 @@ import { SchedulerRegistry } from '@nestjs/schedule'
 import { ClsService } from 'nestjs-cls'
 import { LogEntity } from './entities/log.entity'
 import { RequestEntity } from './entities/request.entity'
-import { INTERVAL_KEY, REQUEST_ID_KEY } from './logger.constants'
+import { REQUEST_ID_KEY } from './logger.constants'
 import { MODULE_OPTIONS_TOKEN } from './logger.definition'
 import { DatabaseItem, NLoggerOptions } from './logger.interfaces'
 import { migrations } from './migrations'
@@ -14,6 +14,7 @@ import { migrations } from './migrations'
 export class NLoggerService implements OnApplicationBootstrap, OnApplicationShutdown {
   private orm: MikroORM<PostgreSqlDriver>
   private queue: DatabaseItem[] = []
+  private interval: NodeJS.Timer
 
   constructor(
     @Inject(MODULE_OPTIONS_TOKEN) private readonly options: NLoggerOptions,
@@ -33,15 +34,13 @@ export class NLoggerService implements OnApplicationBootstrap, OnApplicationShut
       console.error('Failed to connect to db:', e)
     }
 
-    const interval = setInterval(() => {
+    this.interval = setInterval(() => {
       this.insertDatabaseItems()
-    }, this.options.dbUpdateInterval ?? 1000)
-
-    this.schedulerRegistry.addInterval(INTERVAL_KEY, interval)
+    }, this.options.dbUpdateInterval ?? 1500)
   }
 
   async onApplicationShutdown() {
-    clearInterval(this.schedulerRegistry.getInterval(INTERVAL_KEY))
+    clearInterval(this.interval)
 
     await this.orm.close(true)
   }
