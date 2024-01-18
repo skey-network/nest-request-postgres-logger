@@ -1,7 +1,6 @@
 import { MikroORM } from '@mikro-orm/core'
 import { PostgreSqlDriver, defineConfig } from '@mikro-orm/postgresql'
 import { Inject, Injectable, OnApplicationBootstrap, OnApplicationShutdown } from '@nestjs/common'
-import { SchedulerRegistry } from '@nestjs/schedule'
 import { ClsService } from 'nestjs-cls'
 import { LogEntity } from './entities/log.entity'
 import { RequestEntity } from './entities/request.entity'
@@ -14,11 +13,10 @@ import { migrations } from './migrations'
 export class NLoggerService implements OnApplicationBootstrap, OnApplicationShutdown {
   private orm: MikroORM<PostgreSqlDriver>
   private queue: DatabaseItem[] = []
-  private interval: NodeJS.Timer
+  private interval: NodeJS.Timeout
 
   constructor(
     @Inject(MODULE_OPTIONS_TOKEN) private readonly options: NLoggerOptions,
-    private readonly schedulerRegistry: SchedulerRegistry,
     private readonly clsService: ClsService,
   ) {}
 

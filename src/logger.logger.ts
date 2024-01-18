@@ -114,4 +114,14 @@ export class NLogger extends ConsoleLogger {
 
     return inspect(ctx)
   }
+
+  protected formatPid(pid: number) {
+    if (!this.opts.logPrefix) {
+      return super.formatPid(pid)
+    }
+
+    const prefix = `[${this.opts.logPrefix.slice(0, 12)}]`
+
+    return prefix.padEnd(14, ' ') + ' - '
+  }
 }

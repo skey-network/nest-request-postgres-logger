@@ -67,6 +67,11 @@ export interface NLoggerOptions {
    * Defaults to 3000
    */
   dbUpdateInterval?: number
+
+  /**
+   * Optionally substitute 'Nest' and pid prefix with custom string
+   */
+  logPrefix?: string
 }
 
 export interface RequestDatabaseItem {

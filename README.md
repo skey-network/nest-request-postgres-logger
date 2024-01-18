@@ -20,7 +20,6 @@ Features:
 Requirements:
 
 - `nestjs-cls`
-- `@nestjs/schedule`
 - `@mikro-orm`
 - postgres database
 
@@ -31,7 +30,7 @@ Requirements:
 Install the library with peer dependencies
 
 ```bash
-npm install @nestjs/schedule nestjs-cls @mikro-orm/core @mikro-orm/postgresql @mikro-orm/migrations nest-request-postgres-logger
+npm install nestjs-cls @mikro-orm/core @mikro-orm/postgresql @mikro-orm/migrations nest-request-postgres-logger
 ```
 
 Add nest logger module
@@ -40,14 +39,12 @@ Add nest logger module
 // app.module.ts
 
 import { Module } from '@nestjs/common'
-import { ScheduleModule } from '@nestjs/schedule'
 import { ClsModule } from 'nestjs-cls'
 import { NLoggerModule } from 'nest-request-postgres-logger'
 
 @Module({
   imports: [
     ClsModule.forRoot({ global: true, middleware: { mount: true } }),
-    ScheduleModule.forRoot(),
     NLoggerModule.forRoot({
       connection: {
         host: 'localhost',
@@ -146,6 +143,11 @@ export interface NLoggerOptions {
    * Defaults to 3000
    */
   dbUpdateInterval?: number
+
+  /**
+   * Optionally substitute 'Nest' and pid prefix with custom string
+   */
+  logPrefix?: string
 }
 ```
 
