@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common'
 import { WinstonModule } from 'nest-winston'
 import { ClsService } from 'nestjs-cls'
+import { hostname } from 'node:os'
 import * as winston from 'winston'
 import { Syslog } from 'winston-syslog'
 import { LogEntity } from './entities/log.entity'
@@ -111,7 +112,8 @@ export class NLoggerService implements OnApplicationBootstrap, OnApplicationShut
           host: cfg.host,
           port: cfg.port,
           protocol: cfg.protocol ?? 'tls4',
-          localhost: cfg.systemName,
+          localhost: hostname(),
+          appName: cfg.systemName,
           eol: '\n',
           format: winston.format.combine(winston.format.colorize(), winston.format.simple()),
         }),

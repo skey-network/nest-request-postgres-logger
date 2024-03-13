@@ -48,7 +48,7 @@ export class NLoggerMiddleware implements NestMiddleware {
       const log = this.createConsoleLog(data)
       if (log) console.log(log)
 
-      this.service.winston?.log(data)
+      this.service.winston?.log(this.getRequestText(data), data)
     }
   }
 
@@ -156,6 +156,12 @@ export class NLoggerMiddleware implements NestMiddleware {
 
   private any<T>(value: T): any {
     return value
+  }
+
+  private getRequestText(obj: RequiredEntityData<RequestEntity>) {
+    const color = this.withColor(this.matchColorForStatus(obj.status))
+
+    return color(`${obj.method?.toUpperCase()} ${obj.path} [${obj.status}]`)
   }
 
   private withColor(color: ConsoleColor) {

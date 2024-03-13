@@ -46,7 +46,7 @@ import { NLoggerModule } from 'nest-request-postgres-logger'
   imports: [
     ClsModule.forRoot({ global: true, middleware: { mount: true } }),
     NLoggerModule.forRoot({
-      connection: {
+      dbConfig: {
         host: 'localhost',
         port: 5432,
         dbName: 'postgres',
@@ -93,6 +93,11 @@ export interface NLoggerOptions {
   dbConfig: DbConfig
 
   /**
+   * Config to syslog transport to papertrail
+   */
+  papertrailConfig?: PapertrailConfig
+
+  /**
    * Whether to mount middleware automatically
    *
    * Defaults to true
@@ -136,13 +141,6 @@ export interface NLoggerOptions {
    * ]
    */
   skipContexts?: string[]
-
-  /**
-   * Interval in milliseconds indicating how often batch of logs is saved in db
-   *
-   * Defaults to 3000
-   */
-  dbUpdateInterval?: number
 
   /**
    * Optionally substitute 'Nest' and pid prefix with custom string

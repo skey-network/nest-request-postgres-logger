@@ -38,7 +38,16 @@ export class NLogger extends ConsoleLogger {
     ])
 
     this.pushToDb('error', context, messages, stack)
-    this.loggerService.winston?.error(message, ...optionalParams)
+
+    if (message instanceof Error) {
+      this.loggerService.winston?.error(
+        message.message,
+        { stack: message.stack },
+        ...optionalParams,
+      )
+    } else {
+      this.loggerService.winston?.error(message, ...optionalParams)
+    }
 
     super.error(message, ...optionalParams)
   }
