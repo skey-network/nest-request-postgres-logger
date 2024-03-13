@@ -47,6 +47,8 @@ export class NLoggerMiddleware implements NestMiddleware {
 
       const log = this.createConsoleLog(data)
       if (log) console.log(log)
+
+      this.service.winston?.log(data)
     }
   }
 

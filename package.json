@@ -1,6 +1,6 @@
 {
   "name": "nest-request-postgres-logger",
-  "version": "2.0.0",
+  "version": "3.0.1",
   "description": "nest-request-postgres-logger",
   "license": "MIT",
   "main": "dist/index.js",
@@ -29,22 +29,25 @@
     "url": "https://github.com/skey-network/nest-request-postgres-logger"
   },
   "peerDependencies": {
+    "@mikro-orm/core": "^5.6.15",
+    "@mikro-orm/migrations": "^5.6.15",
+    "@mikro-orm/postgresql": "^5.6.15",
     "@nestjs/common": "^10.3.0",
     "nestjs-cls": "^3.2.1",
-    "rxjs": "^7.x",
-    "@mikro-orm/core": "^5.6.15",
-    "@mikro-orm/postgresql": "^5.6.15",
-    "@mikro-orm/migrations": "^5.6.15"
+    "rxjs": "^7.x"
   },
   "dependencies": {
+    "nest-winston": "^1.9.4",
     "request-ip": "^3.3.0",
+    "rxjs": "^7.x",
     "uuid": "^9.0.1",
-    "rxjs": "^7.x"
+    "winston": "^3.12.0",
+    "winston-syslog": "^2.7.0"
   },
   "devDependencies": {
     "@mikro-orm/core": "^5.6.15",
-    "@mikro-orm/postgresql": "^5.6.15",
     "@mikro-orm/migrations": "^5.6.15",
+    "@mikro-orm/postgresql": "^5.6.15",
     "@nestjs/common": "^10.3.0",
     "@nestjs/core": "^10.3.0",
     "@nestjs/platform-express": "^10.3.0",

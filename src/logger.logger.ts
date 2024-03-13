@@ -23,6 +23,7 @@ export class NLogger extends ConsoleLogger {
     ])
 
     this.pushToDb('log', context, messages)
+    this.loggerService.winston?.log(message, ...optionalParams)
 
     super.log(message, ...optionalParams)
   }
@@ -37,6 +38,7 @@ export class NLogger extends ConsoleLogger {
     ])
 
     this.pushToDb('error', context, messages, stack)
+    this.loggerService.winston?.error(message, ...optionalParams)
 
     super.error(message, ...optionalParams)
   }
@@ -50,6 +52,7 @@ export class NLogger extends ConsoleLogger {
     ])
 
     this.pushToDb('warn', context, messages)
+    this.loggerService.winston?.warn(message, ...optionalParams)
 
     super.warn(message, ...optionalParams)
   }
@@ -63,6 +66,7 @@ export class NLogger extends ConsoleLogger {
     ])
 
     this.pushToDb('debug', context, messages)
+    this.loggerService.winston?.debug(message, ...optionalParams)
 
     super.debug(message, ...optionalParams)
   }
@@ -76,6 +80,7 @@ export class NLogger extends ConsoleLogger {
     ])
 
     this.pushToDb('verbose', context, messages)
+    this.loggerService.winston?.verbose(message, ...optionalParams)
 
     super.verbose(message, ...optionalParams)
   }

@@ -5,6 +5,7 @@ import { NLoggerMigration2 } from './NLoggerMigration2'
 import { NLoggerMigration3 } from './NLoggerMigration3'
 import { NLoggerMigration4 } from './NLoggerMigration4'
 import { NLoggerMigration5 } from './NLoggerMigration5'
+import { NLoggerMigration6 } from './NLoggerMigration6'
 
 export const migrations: Constructor<Migration>[] = [
   NLoggerMigration1,
@@ -12,4 +13,5 @@ export const migrations: Constructor<Migration>[] = [
   NLoggerMigration3,
   NLoggerMigration4,
   NLoggerMigration5,
+  NLoggerMigration6,
 ]

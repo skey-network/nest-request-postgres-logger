@@ -1,7 +1,16 @@
 import { MikroORM } from '@mikro-orm/core'
 import { PostgreSqlDriver, defineConfig } from '@mikro-orm/postgresql'
-import { Inject, Injectable, OnApplicationBootstrap, OnApplicationShutdown } from '@nestjs/common'
+import {
+  Inject,
+  Injectable,
+  LoggerService,
+  OnApplicationBootstrap,
+  OnApplicationShutdown,
+} from '@nestjs/common'
+import { WinstonModule } from 'nest-winston'
 import { ClsService } from 'nestjs-cls'
+import * as winston from 'winston'
+import { Syslog } from 'winston-syslog'
 import { LogEntity } from './entities/log.entity'
 import { RequestEntity } from './entities/request.entity'
 import { REQUEST_ID_KEY } from './logger.constants'
@@ -15,10 +24,14 @@ export class NLoggerService implements OnApplicationBootstrap, OnApplicationShut
   private queue: DatabaseItem[] = []
   private interval: NodeJS.Timeout
 
+  winston: LoggerService | null
+
   constructor(
     @Inject(MODULE_OPTIONS_TOKEN) private readonly options: NLoggerOptions,
     private readonly clsService: ClsService,
-  ) {}
+  ) {
+    this.winston = this.createWinstonInstance()
+  }
 
   async onApplicationBootstrap() {
     try {
@@ -34,7 +47,7 @@ export class NLoggerService implements OnApplicationBootstrap, OnApplicationShut
 
     this.interval = setInterval(() => {
       this.insertDatabaseItems()
-    }, this.options.dbUpdateInterval ?? 1500)
+    }, this.options.dbConfig.updateInternvalMs ?? 1500)
   }
 
   async onApplicationShutdown() {
@@ -85,6 +98,24 @@ export class NLoggerService implements OnApplicationBootstrap, OnApplicationShut
         migrationsList: migrations.map((migration) => ({ class: migration, name: migration.name })),
         disableForeignKeys: false,
       },
+    })
+  }
+
+  private createWinstonInstance() {
+    const cfg = this.options.papertrailConfig
+    if (!cfg) return null
+
+    return WinstonModule.createLogger({
+      transports: [
+        new Syslog({
+          host: cfg.host,
+          port: cfg.port,
+          protocol: cfg.protocol ?? 'tls4',
+          localhost: cfg.systemName,
+          eol: '\n',
+          format: winston.format.combine(winston.format.colorize(), winston.format.simple()),
+        }),
+      ],
     })
   }
 }

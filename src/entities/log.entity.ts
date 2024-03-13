@@ -14,6 +14,9 @@ export class LogEntity extends BaseEntity<LogEntity, 'id'> {
   @Property({ type: 'text', nullable: true })
   data: string
 
+  @Property({ type: 'timestamp' })
+  timestamp: Date
+
   @Property({ type: 'uuid', nullable: true, index: true })
   requestId: string
 }

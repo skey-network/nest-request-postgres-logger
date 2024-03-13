@@ -5,7 +5,19 @@ import { ClsService } from 'nestjs-cls'
 import { LogEntity } from './entities/log.entity'
 import { RequestEntity } from './entities/request.entity'
 
-export type DbConfig = Omit<PostgreSqlOptions, 'schema' | 'entities' | 'entitiesTs' | 'migrations'>
+export type DbConfig = Omit<
+  PostgreSqlOptions,
+  'schema' | 'entities' | 'entitiesTs' | 'migrations'
+> & {
+  updateInternvalMs?: number // How often batch of logs is saved to db
+}
+
+export type PapertrailConfig = {
+  host: string
+  port: number
+  systemName: string
+  protocol?: string
+}
 
 export interface NLoggerOptions {
   /**
@@ -15,6 +27,11 @@ export interface NLoggerOptions {
    * Some properties are overridden by logger
    */
   dbConfig: DbConfig
+
+  /**
+   * Config to syslog transport to papertrail
+   */
+  papertrailConfig?: PapertrailConfig
 
   /**
    * Whether to mount middleware automatically
@@ -60,13 +77,6 @@ export interface NLoggerOptions {
    * ]
    */
   skipContexts?: string[]
-
-  /**
-   * Interval in milliseconds indicating how often batch of logs is saved in db
-   *
-   * Defaults to 3000
-   */
-  dbUpdateInterval?: number
 
   /**
    * Optionally substitute 'Nest' and pid prefix with custom string
