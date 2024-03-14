@@ -1,6 +1,6 @@
 {
   "name": "nest-request-postgres-logger",
-  "version": "3.0.5",
+  "version": "3.0.6",
   "description": "nest-request-postgres-logger",
   "license": "MIT",
   "main": "dist/index.js",
@@ -42,6 +42,7 @@
     "rxjs": "^7.x",
     "uuid": "^9.0.1",
     "winston": "^3.12.0",
+    "winston-papertrail-transport": "^1.0.9",
     "winston-syslog": "^2.7.0"
   },
   "devDependencies": {

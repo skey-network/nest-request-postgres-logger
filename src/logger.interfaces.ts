@@ -16,7 +16,6 @@ export type PapertrailConfig = {
   host: string
   port: number
   systemName: string
-  protocol?: string
 }
 
 export interface NLoggerOptions {

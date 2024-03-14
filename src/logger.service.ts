@@ -9,9 +9,9 @@ import {
 } from '@nestjs/common'
 import { WinstonModule } from 'nest-winston'
 import { ClsService } from 'nestjs-cls'
-import { hostname } from 'node:os'
+import { hostname } from 'os'
 import * as winston from 'winston'
-import { Syslog } from 'winston-syslog'
+import { PapertrailTransport } from 'winston-papertrail-transport'
 import { LogEntity } from './entities/log.entity'
 import { RequestEntity } from './entities/request.entity'
 import { REQUEST_ID_KEY } from './logger.constants'
@@ -107,16 +107,14 @@ export class NLoggerService implements OnApplicationBootstrap, OnApplicationShut
     if (!cfg) return null
 
     return WinstonModule.createLogger({
+      format: winston.format.combine(winston.format.colorize(), winston.format.simple()),
       transports: [
-        new Syslog({
+        new PapertrailTransport({
           host: cfg.host,
           port: cfg.port,
-          protocol: cfg.protocol ?? 'tls4',
-          localhost: hostname(),
-          appName: cfg.systemName,
-          eol: '\n',
-          format: winston.format.combine(winston.format.colorize(), winston.format.simple()),
-        }),
+          hostname: hostname(),
+          program: cfg.systemName,
+        }) as any,
       ],
     })
   }
