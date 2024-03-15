@@ -107,6 +107,7 @@ export class NLoggerService implements OnApplicationBootstrap, OnApplicationShut
     if (!cfg) return null
 
     return WinstonModule.createLogger({
+      level: cfg.logLevel,
       format: winston.format.combine(winston.format.colorize(), winston.format.simple()),
       transports: [
         new PapertrailTransport({

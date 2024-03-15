@@ -12,10 +12,13 @@ export type DbConfig = Omit<
   updateInternvalMs?: number // How often batch of logs is saved to db
 }
 
+export type PapertrailLogLevel = 'error' | 'warn' | 'info' | 'http' | 'verbose' | 'debug' | 'silly'
+
 export type PapertrailConfig = {
   host: string
   port: number
   systemName: string
+  logLevel?: PapertrailLogLevel
 }
 
 export interface NLoggerOptions {
