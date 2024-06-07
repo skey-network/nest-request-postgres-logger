@@ -28,7 +28,7 @@ export interface NLoggerOptions {
    *
    * Some properties are overridden by logger
    */
-  dbConfig: DbConfig
+  dbConfig?: DbConfig
 
   /**
    * Config to syslog transport to papertrail

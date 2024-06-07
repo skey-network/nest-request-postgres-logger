@@ -95,6 +95,8 @@ export class NLogger extends ConsoleLogger {
   }
 
   private pushToDb(type: LogType, context: any, messages: any, stack?: any) {
+    if (!this.loggerService.databaseAvailable) return
+
     const blacklist = this.opts.skipContexts ?? DEFAULT_SKIP_CONTEXTS
     const ctx = this.getContext(context)
 

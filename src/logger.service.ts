@@ -35,6 +35,8 @@ export class NLoggerService implements OnApplicationBootstrap, OnApplicationShut
   }
 
   async onApplicationBootstrap() {
+    if (!this.options.dbConfig) return
+
     try {
       this.orm = await MikroORM.init(this.getConnectionConfig(), true)
 
@@ -54,10 +56,16 @@ export class NLoggerService implements OnApplicationBootstrap, OnApplicationShut
   async onApplicationShutdown() {
     clearInterval(this.interval)
 
-    await this.orm.close(true)
+    await this.orm?.close(true)
+  }
+
+  get databaseAvailable() {
+    return !!this.orm
   }
 
   pushDatabaseItem(item: DatabaseItem) {
+    if (!this.orm) return
+
     if (item.type === 'log' && this.clsService.isActive()) {
       item.data.requestId = this.clsService.get(REQUEST_ID_KEY) ?? null
     }
@@ -66,7 +74,7 @@ export class NLoggerService implements OnApplicationBootstrap, OnApplicationShut
   }
 
   private async insertDatabaseItems() {
-    if (!this.queue.length) return
+    if (!this.queue.length || !this.orm) return
 
     const batch = this.queue
     this.queue = []
