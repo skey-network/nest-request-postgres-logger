@@ -1,6 +1,6 @@
 {
   "name": "nest-request-postgres-logger",
-  "version": "3.0.7",
+  "version": "3.1.7",
   "description": "nest-request-postgres-logger",
   "license": "MIT",
   "main": "dist/index.js",
