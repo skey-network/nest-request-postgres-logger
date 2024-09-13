@@ -121,7 +121,7 @@ export class NLoggerService implements OnApplicationBootstrap, OnApplicationShut
         new PapertrailTransport({
           host: cfg.host,
           port: cfg.port,
-          hostname: hostname(),
+          hostname: cfg.hostname ?? hostname(),
           program: cfg.systemName,
         }) as any,
       ],

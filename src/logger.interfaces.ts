@@ -19,6 +19,7 @@ export type PapertrailConfig = {
   port: number
   systemName: string
   logLevel?: PapertrailLogLevel
+  hostname?: string
 }
 
 export interface NLoggerOptions {
